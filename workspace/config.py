@@ -1,7 +1,7 @@
 from phidata.workspace import WorkspaceConfig
 
 from workspace.settings import aws_region
-from workspace.prd.settings import prd_env
+from workspace.dev.settings import dev_env
 from workspace.dev.aws_config import dev_aws_config
 from workspace.dev.docker_config import dev_docker_config
 from workspace.prd.aws_config import prd_aws_config
@@ -10,9 +10,8 @@ from workspace.prd.k8s_config import prd_k8s_config
 
 # -*- Define workspace resources using the WorkspaceConfig
 workspace = WorkspaceConfig(
-    default_env=prd_env,
-    # Set to k8s after aws resources are created
-    # default_config="k8s",
+    default_env=dev_env,
+    default_config="docker",
     aws_region=aws_region,
     aws=[
         dev_aws_config,
