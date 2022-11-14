@@ -45,7 +45,7 @@ prd_tags = {
     "Project": ws_name,
 }
 # Domain for prd services like airflow and superset
-prd_domain = "starter-aws.com"
+prd_domain = "starter-aws-snowflake.com"
 
 #
 # -*- AWS settings
