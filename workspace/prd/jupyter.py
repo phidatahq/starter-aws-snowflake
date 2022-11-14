@@ -3,14 +3,17 @@ from phidata.infra.aws.resource.group import AwsResourceGroup
 from phidata.infra.aws.resource.ec2.volume import EbsVolume
 
 from workspace.prd.images import prd_jupyter_image
-from workspace.settings import ws_dir_path, use_cache, jupyter_enabled, aws_az
-from workspace.prd.settings import (
+from workspace.settings import (
+    aws_az,
+    jupyter_enabled,
     prd_key,
     prd_tags,
-    workers_ng_label,
     topology_spread_key,
     topology_spread_max_skew,
     topology_spread_when_unsatisfiable,
+    use_cache,
+    workers_ng_label,
+    ws_dir_path,
 )
 
 # -*- AWS resources

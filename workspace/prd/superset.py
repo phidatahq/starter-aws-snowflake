@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from phidata.app.postgres import PostgresDb, PostgresVolumeType
 from phidata.app.redis import Redis, RedisVolumeType
 from phidata.app.superset import (
@@ -6,28 +7,24 @@ from phidata.app.superset import (
     SupersetInit,
     SupersetWorker,
     SupersetWorkerBeat,
-    ServiceType,
 )
 from phidata.infra.aws.resource.group import AwsResourceGroup
 from phidata.infra.aws.resource.ec2.volume import EbsVolume
-from phidata.infra.k8s.enums.image_pull_policy import ImagePullPolicy
 
+from workspace.prd.images import prd_superset_image
 from workspace.settings import (
     aws_az,
-    ws_repo,
-    ws_dir_path,
-    use_cache,
-    superset_enabled,
-)
-from workspace.prd.images import prd_superset_image
-from workspace.prd.settings import (
     prd_key,
     prd_tags,
     services_ng_label,
-    workers_ng_label,
+    superset_enabled,
     topology_spread_key,
     topology_spread_max_skew,
     topology_spread_when_unsatisfiable,
+    use_cache,
+    workers_ng_label,
+    ws_dir_path,
+    ws_repo,
 )
 
 # -*- AWS resources
@@ -99,11 +96,10 @@ prd_superset_redis = Redis(
 
 # Superset webserver
 prd_superset_ws = SupersetWebserver(
-    replicas=1,
+    replicas=3,
     enabled=superset_enabled,
     image_name=prd_superset_image.name,
     image_tag=prd_superset_image.tag,
-    image_pull_policy=ImagePullPolicy.ALWAYS,
     db_app=prd_superset_db,
     wait_for_db=wait_for_db,
     redis_app=prd_superset_redis,
@@ -127,7 +123,6 @@ prd_superset_init = SupersetInit(
     enabled=(superset_enabled and superset_init_enabled),
     image_name=prd_superset_image.name,
     image_tag=prd_superset_image.tag,
-    image_pull_policy=ImagePullPolicy.ALWAYS,
     db_app=prd_superset_db,
     wait_for_db=wait_for_db,
     redis_app=prd_superset_redis,
@@ -147,11 +142,10 @@ prd_superset_init = SupersetInit(
 
 # Superset worker
 prd_superset_worker = SupersetWorker(
-    replicas=1,
+    replicas=2,
     enabled=superset_enabled,
     image_name=prd_superset_image.name,
     image_tag=prd_superset_image.tag,
-    image_pull_policy=ImagePullPolicy.ALWAYS,
     db_app=prd_superset_db,
     wait_for_db=wait_for_db,
     redis_app=prd_superset_redis,
@@ -171,11 +165,10 @@ prd_superset_worker = SupersetWorker(
 
 # Superset worker beat
 prd_superset_worker_beat = SupersetWorkerBeat(
-    replicas=1,
+    replicas=2,
     enabled=superset_enabled,
     image_name=prd_superset_image.name,
     image_tag=prd_superset_image.tag,
-    image_pull_policy=ImagePullPolicy.ALWAYS,
     db_app=prd_superset_db,
     wait_for_db=wait_for_db,
     redis_app=prd_superset_redis,
