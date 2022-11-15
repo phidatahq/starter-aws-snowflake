@@ -8,10 +8,10 @@ authors = [
 ]
 
 dependencies = [
-    "boto3",
     "pandas",
-    "phidata>=0.3.9",
+    "phidata[aws]>=0.3.10",
     "requests",
+    "snowflake-sqlalchemy",
     "sqlalchemy",
 ]
 
